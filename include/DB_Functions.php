@@ -47,6 +47,29 @@ class DB_Functions {
             return false;
         }
     }
+    
+    
+    
+     public function addNc($nc_id, $name, $location, $affected_area, $intensity) {
+       
+        $stmt = $this->conn->prepare("INSERT INTO nc(name, location, affected_area, intensity) VALUES(?, ?, ?, ?)");
+        $stmt->bind_param($name, $location, $affected_area, $intensity);
+        $result = $stmt->execute();
+        $stmt->close();
+
+        // check for successful store
+        if ($result) {
+            $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $user = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+
+            return $user;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * Get user by email and password
