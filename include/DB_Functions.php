@@ -50,7 +50,7 @@ class DB_Functions {
     
     public function getnc()
     {
-            $stmt = $this->conn->prepare("SELECT * FROM nc");
+            $stmt = $this->conn->prepare("SELECT * FROM nc where status = 0");
             $stmt->execute();
             $nc = array();
             $result = $stmt->get_result();
