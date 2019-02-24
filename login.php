@@ -31,7 +31,8 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
         $response["error_msg"] = "Login credentials are wrong. Please try again!";
         echo json_encode($response);
     }
-} else {
+} 
+else {
     // required post params is missing
     $response["error"] = TRUE;
     $response["error_msg"] = "Required parameters email or password is missing!";

@@ -48,29 +48,71 @@ class DB_Functions {
         }
     }
     
+    public function getnc()
+    {
+            $stmt = $this->conn->prepare("SELECT * FROM nc");
+            $stmt->execute();
+            $nc = array();
+            $result = $stmt->get_result();
+            
+            while($record = $result->fetch_assoc()){
+                
+                array_push($nc, $record);
+            }
+            $stmt->close();
+            return $nc;
+            
+    }
     
     
-     public function addNc($nc_id, $name, $location, $affected_area, $intensity) {
-       
-        $stmt = $this->conn->prepare("INSERT INTO nc(name, location, affected_area, intensity) VALUES(?, ?, ?, ?)");
-        $stmt->bind_param($name, $location, $affected_area, $intensity);
+    public function update($help_id)
+    {
+        $stmt = $this->conn->prepare("UPDATE help SET status = 1 WHERE help_id = $help_id ");
+        $stmt->execute();
+        $stmt->close();
+        return true;
+        
+    }
+    
+    public function update_ask($ask_id)
+    {
+        $stmt = $this->conn->prepare("UPDATE askhelp SET status = 1 WHERE ask_id = $ask_id ");
+        $stmt->execute();
+        $stmt->close();
+        return true;
+        
+    }
+
+        public function addhelp($nc_id, $provider_id, $p_cap, $comment) {
+        // echo "INSERT INTO help(nc_id, provider_id, p_cap, comment) VALUES($nc_id, $provider_id ,'".$p_cap."', '".$comment."')";
+        $stmt = $this->conn->prepare("INSERT INTO help(nc_id, provider_id, p_cap, comment) VALUES($nc_id, $provider_id ,'".$p_cap."', '".$comment."')");
         $result = $stmt->execute();
         $stmt->close();
 
-        // check for successful store
-        if ($result) {
-            $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $user = $stmt->get_result()->fetch_assoc();
-            $stmt->close();
+         return true;
+  }  
+    
+  
+  public function askhelp($nc_id, $provider_id, $comment) {
+        // echo "INSERT INTO help(nc_id, provider_id, p_cap, comment) VALUES($nc_id, $provider_id ,'".$p_cap."', '".$comment."')";
+        $stmt = $this->conn->prepare("INSERT INTO askhelp(nc_id, provider_id, comment) VALUES($nc_id, $provider_id, '".$comment."')");
+        $result = $stmt->execute();
+        $stmt->close();
 
-            return $user;
-        } else {
-            return false;
-        }
+         return true;
+  }  
+    
+     public function addNc($name, $location, $affected_area, $intensity) {
+       
+         
+        $stmt = $this->conn->prepare("INSERT INTO nc(name, location, affected_area, intensity) VALUES('".$name."', '".$location."' , '".$affected_area."', $intensity)");
+        $result = $stmt->execute();
+        $stmt->close();
+
+         return true;
     }
-
+    
+   
     /**
      * Get user by email and password
      */

@@ -7,7 +7,7 @@ $db = new DB_Functions();
 // json response array
 $response = array("error" => FALSE);
 
-if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['address']) && isset($_POST['password']) && isset($_POST['phone'])) {
+if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['address']) && isset($_POST['zip_code']) && isset($_POST['phone'])) {
 
     // receiving the post params
     $name = $_POST['name'];
